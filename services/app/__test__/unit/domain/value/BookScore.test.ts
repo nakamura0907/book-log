@@ -1,4 +1,4 @@
-import BookScore from "@/core/domain/value/BookScore";
+import BookScore from "@/core/domain/value/books/BookScore";
 
 describe("BookScore", () => {
     test("バリデーション", () => {
