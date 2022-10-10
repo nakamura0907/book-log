@@ -21,7 +21,8 @@ const booksController = () => {
             const result = await usecase.add(request);
 
             // レスポンス
-            const location = `/books/${result.id}`;
+            const url = req.protocol + '://' + req.get('host') + req.originalUrl;
+            const location = `${url}/${result.id}`;
             res.status(201).location(location).send(result);
         })().catch(next);
     }

@@ -27,6 +27,18 @@ class AddBook {
         );
     }
 
+    get userId() {
+        return this._userId;
+    }
+
+    get title() {
+        return this._title;
+    }
+
+    get status() {
+        return this._status;
+    }
+
     get coverImage() {
         return this._coverImage;
     }
