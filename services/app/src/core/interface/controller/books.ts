@@ -1,11 +1,11 @@
 import BooksUseCase from "@/core/application/usecase/books/BooksUseCase";
-import FakeBooksRepository from "@/core/infrastructure/repository/fake/BooksRepository";
 import MinioStorage from "@/core/infrastructure/storage/minio/Storage";
+import PrismaBooksRepository from "@/core/infrastructure/repository/prisma/BooksRepository";
 import { AddBookRequest } from "@/core/domain/dto/request/books";
 import { NextFunction, Request, Response } from "express"
 
 const booksController = () => {
-    const repository = new FakeBooksRepository();
+    const repository = new PrismaBooksRepository();
     const storage = new MinioStorage();
     const usecase = new BooksUseCase(repository, storage);
 

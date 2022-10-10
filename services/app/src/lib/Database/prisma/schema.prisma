@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model books {
+  id          Int     @id @default(autoincrement())
+  user_id     String  @db.Text
+  title       String  @db.VarChar(255)
+  status      Int
+  cover_image String? @db.Text
+}

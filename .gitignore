@@ -1,8 +1,12 @@
 node_modules
+.env
 
 # app
 services/app/dist
 services/app/__test__/sample.jpg
+
+# mysql
+services/mysql/data
 
 # minio
 services/minio/*
