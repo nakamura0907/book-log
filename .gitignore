@@ -2,3 +2,7 @@ node_modules
 
 # app
 services/app/dist
+services/app/__test__/sample.jpg
+
+# minio
+services/minio/*

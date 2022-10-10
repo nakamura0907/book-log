@@ -2,9 +2,8 @@ import Id from "@/core/domain/value/Id";
 import BookTitle from "@/core/domain/value/books/BookTitle";
 import BookStatus from "@/core/domain/value/books/BookStatus";
 import CoverImage from "@/core/domain/value/books/CoverImage";
-import { FileType } from "@/core/infrastructure/storage/multer/File";
-import BooksEntity from "../../dto/entity/Books";
 import Book from "./Book";
+import { FileType } from "@/core/infrastructure/storage/multer/File";
 
 class AddBook {
     private readonly _userId: Id;
@@ -37,12 +36,6 @@ class AddBook {
         const statusLabel = this._status.label;
         const coverImage = this._coverImage ? this._coverImage.value.originalname : undefined;
         return new Book(id, userId, this._title.value, statusLabel, coverImage);
-    }
-
-    createEntity() {
-        const userId = this._userId.value.toString();
-        const coverImage = this._coverImage ? this._coverImage.value.originalname : undefined;
-        return new BooksEntity(undefined, userId, this._title.value, this._status.value, coverImage);
     }
 }
 

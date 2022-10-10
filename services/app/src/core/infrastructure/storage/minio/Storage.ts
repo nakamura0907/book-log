@@ -8,7 +8,7 @@ class MinioStorage implements IStorage {
 
     constructor() {
         this.client = new Client({
-            endPoint: "s3",
+            endPoint: "minio",
             port: 9090,
             useSSL: false,
             accessKey: "minio",

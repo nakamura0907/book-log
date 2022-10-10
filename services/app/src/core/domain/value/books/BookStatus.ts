@@ -5,10 +5,10 @@ class BookStatus {
     private readonly _value: number;
 
     static validate(value: number) {
-        if (value === 0) return new BookStatus(value);
-        if (value === 1) return new BookStatus(value);
-        if (value === 2) return new BookStatus(value);
-        if (value === 3) return new BookStatus(value);
+        if (value == 0) return new BookStatus(value);
+        if (value == 1) return new BookStatus(value);
+        if (value == 2) return new BookStatus(value);
+        if (value == 3) return new BookStatus(value);
         throw new Exception("不正な読書状態です", 400);
     }
 

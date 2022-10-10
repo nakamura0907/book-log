@@ -1,6 +1,18 @@
 POST http://localhost:3001/api/v1/books
-Content-Type: "application/json"
+Content-Type: multipart/form-data; boundary=MyBoundary
 
-{
-    
-}
+--MyBoundary
+Content-Disposition: form-data; name="title"
+
+サンプル書籍
+--MyBoundary
+Content-Disposition: form-data; name="status"
+
+0
+# --MyBoundary
+# Content-Disposition: form-data; name="coverImage"; filename="sample.jpg"
+# Content-Type: image/jpeg
+
+# < ../sample.jpg
+
+--MyBoundary--

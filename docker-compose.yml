@@ -7,7 +7,20 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./services/app:/usr/src/app
-    command: [sh, -c npm run start]
+    command: [sh, -c, npm run start]
     ports:
       - 3001:3001
 
+  # minio: s3
+  minio:
+    image: minio/minio:RELEASE.2022-09-07T22-25-02Z
+    ports:
+      - 9090:9090
+      - 9091:9091
+    volumes:
+      - ./services/minio/data:/data
+      - ./services/minio/export:/export
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=minio123
+    command: server /export --address :9090 --console-address :9091
