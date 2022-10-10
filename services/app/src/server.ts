@@ -3,6 +3,7 @@ import http from "http";
 import express from "express";
 import config from "@config/index";
 import errorHandling from "@middlewares/errorHandling";
+import booksRouter from "@/core/interface/router/books";
 
 const app = express();
 const server = http.createServer(app);
@@ -18,6 +19,7 @@ const options: cors.CorsOptions = {
 app.use(cors(options));
 
 // ルーティング
+app.use("/api/v1", booksRouter(express));
 
 // エラーハンドリング
 errorHandling(app);

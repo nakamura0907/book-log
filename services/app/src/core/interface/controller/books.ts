@@ -1,11 +1,13 @@
 import BooksUseCase from "@/core/application/usecase/books/BooksUseCase";
 import FakeBooksRepository from "@/core/infrastructure/repository/fake/BooksRepository";
+import MinioStorage from "@/core/infrastructure/storage/minio/Storage";
 import { AddBookRequest } from "@/core/domain/dto/request/books";
 import { NextFunction, Request, Response } from "express"
 
-const bookController = () => {
+const booksController = () => {
     const repository = new FakeBooksRepository();
-    const usecase = new BooksUseCase(repository);
+    const storage = new MinioStorage();
+    const usecase = new BooksUseCase(repository, storage);
 
     const add = (req: Request, res: Response, next: NextFunction) => {
         (async () => {
@@ -18,11 +20,12 @@ const bookController = () => {
             const result = await usecase.add(request);
 
             // レスポンス
-            res.status(201).location(`/books/${result.id}`).send(result);
+            const location = `/books/${result.id}`;
+            res.status(201).location(location).send(result);
         })().catch(next);
     }
 
     return { add }
 }
 
-export default bookController
+export default booksController

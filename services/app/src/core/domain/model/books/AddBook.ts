@@ -28,18 +28,6 @@ class AddBook {
         );
     }
 
-    get userId() {
-        return this._userId
-    }
-
-    get title() {
-        return this._title;
-    }
-
-    get status() {
-        return this._status;
-    }
-
     get coverImage() {
         return this._coverImage;
     }
@@ -55,10 +43,6 @@ class AddBook {
         const userId = this._userId.value.toString();
         const coverImage = this._coverImage ? this._coverImage.value.originalname : undefined;
         return new BooksEntity(undefined, userId, this._title.value, this._status.value, coverImage);
-    }
-
-    hasCoverImage() {
-        return this._coverImage !== undefined;
     }
 }
 
