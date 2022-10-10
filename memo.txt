@@ -1,7 +1,3 @@
 # Memo
 
 TODO: 
-
-- BookTitle
-- ID(string or number)
-- RegisterBook

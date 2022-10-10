@@ -6,6 +6,7 @@
     "start": "nodemon -L",
     "build": "webpack --config webpack.prod.js",
     "test": "jest",
+    "test:watch": "jest --watch",
     "serve": "node dist/index.js",
     "prisma:generate": "prisma generate --schema ./src/lib/Database/prisma/schema.prisma",
     "prisma:pull": "prisma db pull --schema ./src/lib/Database/prisma/schema.prisma",
