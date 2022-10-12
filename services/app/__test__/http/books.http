@@ -16,3 +16,6 @@ Content-Disposition: form-data; name="status"
 # < ../sample.jpg
 
 --MyBoundary--
+
+### 書籍一覧
+GET http://localhost:3001/api/v1/books

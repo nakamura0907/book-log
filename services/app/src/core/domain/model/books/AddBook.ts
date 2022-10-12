@@ -3,7 +3,7 @@ import BookTitle from "@/core/domain/value/books/BookTitle";
 import BookStatus from "@/core/domain/value/books/BookStatus";
 import CoverImage from "@/core/domain/value/books/CoverImage";
 import Book from "./Book";
-import { FileType } from "@/core/infrastructure/storage/multer/File";
+import { FileType } from "@/lib/File/File";
 
 class AddBook {
     private readonly _userId: Id;

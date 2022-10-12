@@ -6,7 +6,7 @@ const booksRouter = (express: typeof Express) => {
     const router = express.Router();
     const controller = booksController();
 
-    router.route("/books").post(fileUpload.single("coverImage"), controller.add);
+    router.route("/books").get(controller.fetchBookList).post(fileUpload.single("coverImage"), controller.add);
 
     return router;
 }

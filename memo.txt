@@ -3,5 +3,3 @@
 - core/infraのS3やprismaは肥大化したらlib/に移動させる
 
 TODO: 
-
-- 書籍追加リファクタリング

@@ -1,4 +1,4 @@
-import File, { FileType } from "@/core/infrastructure/storage/multer/File";
+import File, { FileType } from "@/lib/File/File";
 import Exception from "@/lib/Exception";
 
 class CoverImage extends File {

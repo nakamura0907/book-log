@@ -1,4 +1,4 @@
-export type FileType = globalThis.Express.Multer.File;
+export type FileType = Express.Multer.File;
 abstract class File {
     constructor(protected readonly _value: FileType) {}
     get value() {

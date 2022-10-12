@@ -1,20 +1,26 @@
 import BooksUseCase from "@/core/application/usecase/books/BooksUseCase";
-import FakeBooksRepository from "@/core/infrastructure/repository/fake/BooksRepository";
 import Book from "@/core/domain/model/books/Book";
 import MinioStorage from "@/core/infrastructure/storage/minio/Storage";
-import { AddBookRequest } from "@/core/domain/dto/request/books";
+import PrismaBooksRepository from "@/core/infrastructure/repository/prisma/BooksRepository";
+import { AddBookRequest, FetchBookListRequest } from "@/core/domain/dto/request/books";
 import { Readable } from "stream";
 
 describe("BooksUseCase", () => {
-    describe("add", () => {
+   const repository = new PrismaBooksRepository();
+   const storage = new MinioStorage();
+   jest.spyOn(repository, "add").mockImplementation(async () => new Book(0, "userId", "テスト書籍", "読みたい"));
+   jest.spyOn(repository, "fetchBookList").mockImplementation(async () => {
+    return [
+      new Book(0, "userId", "テスト書籍", "読みたい"),
+      new Book(1, "userId", "テスト書籍2", "読みたい", "https://example.com/cover_image.png"),
+    ];
+   });
+   jest.spyOn(storage, "uploadCoverImage").mockImplementation(async () => {});
+
+   const usecase = new BooksUseCase(repository, storage);
+
+   describe("add", () => {
         it("正常系", async () => {
-            const repository = new FakeBooksRepository();
-            const storage = new MinioStorage();
-            jest.spyOn(repository, "add").mockImplementation(async () => new Book(0, "userId", "テスト書籍", "読みたい"));
-            jest.spyOn(storage, "uploadCoverImage").mockImplementation(async () => {});
-
-            const usecase = new BooksUseCase(repository, storage);
-
             let request = new AddBookRequest("userId", "テスト書籍", 0);
             let result = await usecase.add(request);
 
@@ -44,5 +50,31 @@ describe("BooksUseCase", () => {
             });
         })
     })
+    describe("fetchBookList", () => {
+      it("正常系", async () => {
+        const userId = 0;
+        const options = {
+         status: undefined,
+         skip: undefined, 
+         q: undefined,
+        };
+        const request = new FetchBookListRequest(userId, options);
+
+        const result = await usecase.fetchBookList(request);
+        expect(result).toStrictEqual({
+          books: [{
+            id: 0,
+            title: "テスト書籍",
+            status: "読みたい",
+            coverImage: undefined,
+          }, {
+            id: 1,
+            title: "テスト書籍2",
+            status: "読みたい",
+            coverImage: "https://example.com/cover_image.png",
+          }],
+        });
+      });
+    });
 }
 );

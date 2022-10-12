@@ -1,6 +1,8 @@
-import { AddBookRequest } from "@/core/domain/dto/request/books";
+import { AddBookRequest, FetchBookListRequest } from "@/core/domain/dto/request/books";
 import AddBook from "@/core/domain/model/books/AddBook";
 import IBooksRepository from "@/core/domain/repository/IBooksRepository";
+import FetchOptions from "@/core/domain/value/books/FetchOptions";
+import Id from "@/core/domain/value/Id";
 import AStorage from "@/core/infrastructure/storage/AStorage";
 
 class BooksUseCase {
@@ -24,6 +26,23 @@ class BooksUseCase {
         return {
             id: result.id
         }
+    }
+
+    async fetchBookList(request: FetchBookListRequest) {
+      const id = new Id(request.userId);
+      const options = new FetchOptions(request.options.skip, request.options.q, request.options.status);
+
+      const result = await this.repository.fetchBookList(id, options);
+      return {
+        books: result.map((book) => {
+          return {
+            id: book.id,
+            title: book.title,
+            status: book.statusLabel,
+            coverImage: book.coverImage,
+          }
+        }),
+      }
     }
 }
 
