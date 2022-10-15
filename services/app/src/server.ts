@@ -3,7 +3,7 @@ import http from "http";
 import express from "express";
 import config from "@config/index";
 import errorHandling from "@middlewares/errorHandling";
-import booksRouter from "@/core/interface/router/books";
+import booksRouter from "@/core/books/router";
 
 const app = express();
 const server = http.createServer(app);

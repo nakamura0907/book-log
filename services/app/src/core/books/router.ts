@@ -1,9 +1,21 @@
-import express from "express";
-import Controller from "./controller";
+import fileUpload from "@/middlewares/fileUpload";
+import type Express from "express";
+import booksController from "./controller";
+import PrismaBooksRepository from "./infrastructure/repository/prisma/BooksRepository";
+import MinioStorage from "./infrastructure/storage/MinioStorage";
 
-const router = express.Router();
-const controller = new Controller();
+const booksRouter = (express: typeof Express) => {
+  const router = express.Router();
 
-router.route('/books').post(controller.addBook);
+const repository = new PrismaBooksRepository();
+const storage = new MinioStorage();
+const controller = booksController(repository, storage);
 
-export default router;
+router.route('/books')
+  .get(controller.fetchBookList)
+  .post(fileUpload.single('coverImage'), controller.addBook)
+
+  return router;
+}
+
+export default booksRouter;

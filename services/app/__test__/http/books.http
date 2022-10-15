@@ -9,11 +9,11 @@ Content-Disposition: form-data; name="title"
 Content-Disposition: form-data; name="status"
 
 0
-# --MyBoundary
-# Content-Disposition: form-data; name="coverImage"; filename="sample.jpg"
-# Content-Type: image/jpeg
+--MyBoundary
+Content-Disposition: form-data; name="coverImage"; filename="sample.jpg"
+Content-Type: image/jpeg
 
-# < ../sample.jpg
+< ../sample.jpg
 
 --MyBoundary--
 

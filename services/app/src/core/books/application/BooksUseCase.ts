@@ -3,13 +3,13 @@ import AddBook from "@/core/books/domain/model/AddBook";
 import IBooksRepository from "@/core/books/domain/repository/IBooksRepository";
 import FetchOptions from "@/core/books/domain/value/FetchOptions";
 import Id from "@/core/shared/Id";
-import AStorage from "@/core/shared/infrastructure/storage/AStorage";
+import IBooksStorage from "@/core/books/domain/repository/IBooksStorage";
 
 class BooksUseCase {
     private readonly repository: IBooksRepository;
-    private readonly storage: AStorage;
+    private readonly storage: IBooksStorage;
     
-    constructor(repository: IBooksRepository, storage: AStorage) {
+    constructor(repository: IBooksRepository, storage: IBooksStorage) {
         this.repository = repository;
         this.storage = storage;
     }

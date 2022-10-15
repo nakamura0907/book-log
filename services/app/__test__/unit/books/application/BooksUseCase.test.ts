@@ -1,9 +1,9 @@
 import BooksUseCase from "@/core/books/application/BooksUseCase";
 import Book from "@/core/books/domain/model/Book";
-import MinioStorage from "@/core/shared/infrastructure/storage/minio/Storage";
 import PrismaBooksRepository from "@/core/books/infrastructure/repository/prisma/BooksRepository";
 import { AddBookRequest, FetchBookListRequest } from "@/core/books/domain/dto/Request";
 import { Readable } from "stream";
+import MinioStorage from "@/core/books/infrastructure/storage/MinioStorage";
 
 describe("BooksUseCase", () => {
    const repository = new PrismaBooksRepository();
