@@ -3,7 +3,11 @@ class BookListOptions {
   private readonly _status?: number;
   private readonly _q?: string;
 
-  constructor(skip: number | undefined, status: number | undefined, q: string | undefined) {
+  constructor(
+    skip: number | undefined,
+    status: number | undefined,
+    q: string | undefined
+  ) {
     this._skip = skip ?? 1;
     this._status ??= status;
     this._q ??= q;
@@ -22,5 +26,4 @@ class BookListOptions {
   }
 }
 
-export default BookListOptions
-
+export default BookListOptions;

@@ -6,50 +6,62 @@ import Book from "./Book";
 import { FileType } from "@/lib/File/File";
 
 class AddBook {
-    private readonly _userId: Id;
-    private readonly _title: BookTitle;
-    private readonly _status: BookStatus;
-    private readonly _coverImage?: CoverImage;
+  private readonly _userId: Id;
+  private readonly _title: BookTitle;
+  private readonly _status: BookStatus;
+  private readonly _coverImage?: CoverImage;
 
-    constructor(userId: Id, title: BookTitle, status: BookStatus, coverImage?: CoverImage) {
-        this._userId = userId;
-        this._title = title;
-        this._status = status;
-        this._coverImage = coverImage;
-        Object.freeze(this);
-    }
+  constructor(
+    userId: Id,
+    title: BookTitle,
+    status: BookStatus,
+    coverImage?: CoverImage
+  ) {
+    this._userId = userId;
+    this._title = title;
+    this._status = status;
+    this._coverImage = coverImage;
+    Object.freeze(this);
+  }
 
-    static create(userId: string | number, title: string, status: number, coverImage?: FileType) {
-        return new AddBook(
-            Id.validate(userId),
-            BookTitle.validate(title),
-            BookStatus.validate(status),
-            coverImage ? CoverImage.validate(coverImage) : undefined
-        );
-    }
+  static create(
+    userId: string | number,
+    title: string,
+    status: number,
+    coverImage?: FileType
+  ) {
+    return new AddBook(
+      Id.validate(userId),
+      BookTitle.validate(title),
+      BookStatus.validate(status),
+      coverImage ? CoverImage.validate(coverImage) : undefined
+    );
+  }
 
-    get userId() {
-        return this._userId;
-    }
+  get userId() {
+    return this._userId;
+  }
 
-    get title() {
-        return this._title;
-    }
+  get title() {
+    return this._title;
+  }
 
-    get status() {
-        return this._status;
-    }
+  get status() {
+    return this._status;
+  }
 
-    get coverImage() {
-        return this._coverImage;
-    }
+  get coverImage() {
+    return this._coverImage;
+  }
 
-    withBookId(id: number) {
-        const userId = this._userId.value.toString();
-        const statusLabel = this._status.label;
-        const coverImage = this._coverImage ? this._coverImage.value.originalname : undefined;
-        return new Book(id, userId, this._title.value, statusLabel, coverImage);
-    }
+  withBookId(id: number) {
+    const userId = this._userId.value.toString();
+    const statusLabel = this._status.label;
+    const coverImage = this._coverImage
+      ? this._coverImage.value.originalname
+      : undefined;
+    return new Book(id, userId, this._title.value, statusLabel, coverImage);
+  }
 }
 
-export default AddBook
+export default AddBook;
