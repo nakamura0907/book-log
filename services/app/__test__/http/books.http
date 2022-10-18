@@ -21,4 +21,13 @@ Content-Type: image/jpeg
 GET http://localhost:3001/api/v1/books
 
 ### 書籍詳細
-GET http://localhost:3001/api/v1/books/1
+GET http://localhost:3001/api/v1/books/2
+
+### 書籍レビュー
+POST http://localhost:3001/api/v1/books/2/reviews
+Content-Type: application/json
+
+{
+    "score": 5,
+    "comment": "面白かったです"
+}

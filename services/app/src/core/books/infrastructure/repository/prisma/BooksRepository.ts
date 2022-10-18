@@ -83,6 +83,32 @@ class PrismaBooksRepository implements IBooksRepository {
       : undefined;
     return new BookDetail(book, review);
   }
+
+  async writeReview(userId: Id, review: Review): Promise<Review> {
+    const book = await prisma.books.findFirst({
+      where: {
+        id: review.id.value,
+        user_id: userId.value,
+      },
+    });
+    if (!book) throw new Exception("書籍が存在しません", 404);
+
+    await prisma.books_reviews.upsert({
+      where: {
+        book_id: book.id,
+      },
+      update: {
+        score: review.score.value,
+        comment: review.comment,
+      },
+      create: {
+        book_id: review.id.value,
+        score: review.score.value,
+        comment: review.comment ?? "",
+      },
+    });
+    return review;
+  }
 }
 
 export default PrismaBooksRepository;

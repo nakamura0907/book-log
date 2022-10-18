@@ -17,6 +17,7 @@ const booksRouter = (express: typeof Express) => {
     .post(fileUpload.single("coverImage"), controller.addBook);
 
   router.route("/books/:bookId").get(controller.fetchBookDetail);
+  router.route("/books/:bookId/reviews").post(controller.writeReview);
 
   return router;
 };

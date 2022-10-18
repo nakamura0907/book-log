@@ -7,6 +7,8 @@ import IBooksRepository from "@/core/books/domain/repository/IBooksRepository";
 import FetchOptions from "@/core/books/domain/value/FetchOptions";
 import Id from "@/core/shared/Id";
 import IBooksStorage from "@/core/books/domain/repository/IBooksStorage";
+import BookScore from "../domain/value/BookScore";
+import Book from "../domain/model/Book";
 
 class BooksUseCase {
   private readonly repository: IBooksRepository;
@@ -79,6 +81,25 @@ class BooksUseCase {
         score: result.review?.score.value,
         comment: result.review?.comment,
       },
+    };
+  }
+
+  async writeReview(userId: number, bookId: number, score: number, comment?: string) {
+    const userIdValue = Id.validate(userId);
+    const bookIdValue = Id.validate(bookId);
+    const scoreValue = BookScore.validate(score);
+
+    const review = Book.writeReview(bookIdValue, {
+      score: scoreValue,
+      comment,
+    })
+
+    // レビュー投稿
+    await this.repository.writeReview(userIdValue, review);
+    return {
+      id: review.id.value,
+      score: review.score.value,
+      comment: review.comment,
     };
   }
 }

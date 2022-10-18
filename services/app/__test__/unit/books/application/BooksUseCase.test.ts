@@ -8,6 +8,9 @@ import {
 import { Readable } from "stream";
 import MinioStorage from "@/core/books/infrastructure/storage/MinioStorage";
 import BookDetail from "@/core/books/domain/model/BookDetail";
+import Review from "@/core/books/domain/model/Review";
+import Id from "@/core/shared/Id";
+import BookScore from "@/core/books/domain/value/BookScore";
 
 describe("BooksUseCase", () => {
   const repository = new PrismaBooksRepository();
@@ -30,6 +33,10 @@ describe("BooksUseCase", () => {
   jest.spyOn(repository, "fetchBookDetail").mockImplementation(async () => {
     return new BookDetail(new Book(1, 1, "テスト書籍", "読みたい"), undefined);
   });
+  jest.spyOn(repository, "writeReview").mockImplementation(async () => {
+    return new Review(new Id(1), new BookScore(3), "テストレビュー");
+  })
+
 
   jest.spyOn(storage, "uploadCoverImage").mockImplementation(async () => {});
 
@@ -66,6 +73,7 @@ describe("BooksUseCase", () => {
       });
     });
   });
+
   describe("fetchBookList", () => {
     it("正常系", async () => {
       const userId = 1;
@@ -114,4 +122,20 @@ describe("BooksUseCase", () => {
       });
     });
   });
+
+  describe("write review", () => {
+    it("正常系", async () => {
+      const userId = 1;
+      const bookId = 1;
+      const score = 3;
+      const comment = "テストコメント";
+
+      const result = await usecase.writeReview(userId, bookId, score, comment);
+      expect(result).toStrictEqual({
+          id: 1,
+          score: 3,
+          comment: "テストコメント",
+      });
+    });
+  })
 });

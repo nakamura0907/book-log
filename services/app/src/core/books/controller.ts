@@ -71,7 +71,27 @@ const controller = (repository: IBooksRepository, storage: IBooksStorage) => {
     })().catch(next);
   };
 
-  return { addBook, fetchBookList, fetchBookDetail };
+  const writeReview = (req: Request, res: Response, next: NextFunction) => {
+    (async () => {
+      // リクエスト内容の受け取り
+      const { bookId } = req.params;
+      const { score, comment } = req.body;
+      const userId = 1;
+
+      // レビュー投稿ユースケース
+      const result = await usecase.writeReview(
+        userId,
+        Number(bookId || -1),
+        Number(score |~ -1),
+        comment
+      );
+
+      // レスポンス
+      res.status(200).send(result);
+    })().catch(next);
+  }
+
+  return { addBook, fetchBookList, fetchBookDetail, writeReview };
 };
 
 export default controller;
