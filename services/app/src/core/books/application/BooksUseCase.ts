@@ -40,7 +40,7 @@ class BooksUseCase {
   }
 
   async fetchBookList(request: FetchBookListRequest) {
-    const id = new Id(request.userId);
+    const id = Id.validate(request.userId);
     const options = new FetchOptions(
       request.options.skip,
       request.options.q,
@@ -58,6 +58,27 @@ class BooksUseCase {
           coverImage: book.coverImage,
         };
       }),
+    };
+  }
+
+  async fetchBookDetail(userId: number, bookId: number) {
+    const userIdValue = Id.validate(userId);
+    const bookIdValue = Id.validate(bookId);
+
+    // 書籍詳細取得
+    const result = await this.repository.fetchBookDetail(
+      userIdValue,
+      bookIdValue
+    );
+    return {
+      id: result.book.id,
+      title: result.book.title,
+      status: result.book.statusLabel,
+      coverImage: result.book.coverImage,
+      review: {
+        score: result.review?.score.value,
+        comment: result.review?.comment,
+      },
     };
   }
 }

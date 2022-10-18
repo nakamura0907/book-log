@@ -1,13 +1,13 @@
 class Book {
   readonly id: number;
-  readonly userId: string;
+  readonly userId: number;
   readonly title: string;
   readonly statusLabel: string;
   readonly coverImage?: string;
 
   constructor(
     id: number,
-    userId: string,
+    userId: number,
     title: string,
     statusLabel: string,
     coverImage?: string
@@ -22,4 +22,3 @@ class Book {
 }
 
 export default Book;
-

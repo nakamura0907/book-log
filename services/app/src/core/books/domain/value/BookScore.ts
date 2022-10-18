@@ -6,7 +6,7 @@ class BookScore {
   static readonly MIN_SCORE = 0;
   static readonly MAX_SCORE = 5;
 
-  constructor(private readonly _value: Score) {}
+  constructor(private readonly _value: number) {}
 
   get value() {
     return this._value;

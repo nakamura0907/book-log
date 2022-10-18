@@ -2,7 +2,7 @@ import { FileType } from "@/lib/File/File";
 
 export class AddBookRequest {
   constructor(
-    readonly userId: string | number,
+    readonly userId: number,
     readonly title: string,
     readonly status: number,
     readonly coverImage?: FileType
@@ -16,7 +16,7 @@ export type FetchBookListOptions = {
 };
 export class FetchBookListRequest {
   constructor(
-    private readonly _userId: string | number,
+    private readonly _userId: number,
     private readonly _options: FetchBookListOptions
   ) {}
 

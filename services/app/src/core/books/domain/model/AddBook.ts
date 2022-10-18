@@ -25,7 +25,7 @@ class AddBook {
   }
 
   static create(
-    userId: string | number,
+    userId: number,
     title: string,
     status: number,
     coverImage?: FileType
@@ -55,7 +55,7 @@ class AddBook {
   }
 
   withBookId(id: number) {
-    const userId = this._userId.value.toString();
+    const userId = this._userId.value;
     const statusLabel = this._status.label;
     const coverImage = this._coverImage
       ? this._coverImage.value.originalname

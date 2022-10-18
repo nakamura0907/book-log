@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
 
@@ -9,9 +9,17 @@ datasource db {
 }
 
 model books {
-  id          Int     @id @default(autoincrement())
-  user_id     String  @db.Text
-  title       String  @db.VarChar(255)
-  status      Int
-  cover_image String? @db.Text
+  id            Int            @id @default(autoincrement())
+  user_id       Int
+  title         String         @db.VarChar(255)
+  status        Int
+  cover_image   String?        @db.Text
+  books_reviews books_reviews?
+}
+
+model books_reviews {
+  book_id Int    @id
+  score   Int
+  comment String @db.VarChar(255)
+  books   books  @relation(fields: [book_id], references: [id], onUpdate: Restrict, map: "ref_books_reviews_book_id")
 }

@@ -54,7 +54,24 @@ const controller = (repository: IBooksRepository, storage: IBooksStorage) => {
     })().catch(next);
   };
 
-  return { addBook, fetchBookList };
+  const fetchBookDetail = (req: Request, res: Response, next: NextFunction) => {
+    (async () => {
+      // リクエスト内容の受け取り
+      const { bookId } = req.params;
+      const userId = 1;
+
+      // 書籍詳細ユースケース
+      const result = await usecase.fetchBookDetail(
+        userId,
+        Number(bookId || -1)
+      );
+
+      // レスポンス
+      res.status(200).send(result);
+    })().catch(next);
+  };
+
+  return { addBook, fetchBookList, fetchBookDetail };
 };
 
 export default controller;
