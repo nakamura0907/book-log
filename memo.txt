@@ -1,6 +1,7 @@
 # Memo
 
-- core/infraのS3やprismaは肥大化したらlib/に移動させる
 - bag: POST /books ミドルウェアを忘れるとreqが正常に受け取れない
+
+- booksをbookshelfに変える？
 
 TODO: 

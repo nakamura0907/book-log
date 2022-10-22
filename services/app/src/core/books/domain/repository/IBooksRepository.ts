@@ -1,15 +1,12 @@
-import AddBook from "@/core/books/domain/model/AddBook";
-import Book from "@/core/books/domain/model/Book";
-import FetchOptions from "@/core/books/domain/value/FetchOptions";
-import Id from "@/core/shared/Id";
-import BookDetail from "../model/BookDetail";
-import Review from "../model/Review";
+import { GeneratedId } from "@/core/shared/Id";
+import Book from "../model/Book";
+import FetchOptions from "../model/FetchOptions";
 
 interface IBooksRepository {
-  add(addBook: AddBook, coverImageURL: string): Promise<Book>;
-  fetchBookList(userId: Id, options: FetchOptions): Promise<Book[]>;
-  fetchBookDetail(userId: Id, bookId: Id): Promise<BookDetail>;
-  writeReview(userId: Id, review: Review): Promise<Review>;
+    save(book: Book): Promise<Book>;
+    fetchBookList(options: FetchOptions): Promise<Book[]>;
+    fetchById(id: GeneratedId): Promise<Book | undefined>;
+    removeBook(id: GeneratedId): Promise<void>;
 }
 
 export default IBooksRepository;

@@ -1,32 +1,41 @@
 import Exception from "@/lib/Exception";
 
-// 読書状態
 class BookStatus {
-  private readonly _value: number;
+    private readonly _value: number;
 
-  static validate(value: number) {
-    if (value == 0) return new BookStatus(value);
-    if (value == 1) return new BookStatus(value);
-    if (value == 2) return new BookStatus(value);
-    if (value == 3) return new BookStatus(value);
-    throw new Exception("不正な読書状態です", 400);
-  }
+    constructor(value: number) {
+        this._value = value;
 
-  constructor(value: number) {
-    this._value = value;
-  }
+        Object.freeze(this);
+    }
 
-  get value() {
-    return this._value;
-  }
+    static validate(value: number) {
+        if (value < 0 || value > 3 || !Number.isInteger(value)) {
+            throw new Exception("書籍状態は0〜3の間で入力してください", 400);
+        }
+        return new BookStatus(value);
+    }
 
-  get label() {
-    if (this._value === 1) return "読みたい";
-    if (this._value === 2) return "いま読んでる";
-    if (this._value === 3) return "読み終わった";
-    return "未設定";
-  }
+    static get UNSET() {
+        return new BookStatus(0);
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    get label() {
+        if (this._value === 1) {
+            return "読みたい";
+        }
+        if (this._value === 2) {
+            return "いま読んでる";
+        }
+        if (this._value === 3) {
+            return "読み終わった";
+        }
+        return "未設定";
+    }
 }
 
 export default BookStatus;
-

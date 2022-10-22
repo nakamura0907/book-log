@@ -2,8 +2,8 @@ import cors from "cors";
 import http from "http";
 import express from "express";
 import config from "@config/index";
-import errorHandling from "@middlewares/errorHandling";
 import booksRouter from "@/core/books/router";
+import errorHandling from "@middlewares/errorHandling";
 
 const app = express();
 const server = http.createServer(app);

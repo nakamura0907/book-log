@@ -1,4 +1,7 @@
-POST http://localhost:3001/api/v1/books
+@baseUrl = http://localhost:3001/api/v1
+@bookId = 4
+
+POST {{baseUrl}}/books
 Content-Type: multipart/form-data; boundary=MyBoundary
 
 --MyBoundary
@@ -9,25 +12,45 @@ Content-Disposition: form-data; name="title"
 Content-Disposition: form-data; name="status"
 
 0
+# --MyBoundary
+# Content-Disposition: form-data; name="coverImage"; filename="sample.jpg"
+# Content-Type: image/jpeg
+
+# < ../sample.jpg
+--MyBoundary--
+
+### 書籍一覧
+GET {{baseUrl}}/books
+
+### 書籍詳細
+GET {{baseUrl}}/books/{{bookId}}
+
+### 書籍更新
+PUT {{baseUrl}}/books/{{bookId}}
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="title"
+
+サンプル書籍改造
+--MyBoundary
+Content-Disposition: form-data; name="status"
+
+1
+--MyBoundary
+Content-Disposition: form-data; name="score"
+
+1
+--MyBoundary
+Content-Disposition: form-data; name="comment"
+
+よしとする
 --MyBoundary
 Content-Disposition: form-data; name="coverImage"; filename="sample.jpg"
 Content-Type: image/jpeg
 
 < ../sample.jpg
-
 --MyBoundary--
 
-### 書籍一覧
-GET http://localhost:3001/api/v1/books
-
-### 書籍詳細
-GET http://localhost:3001/api/v1/books/2
-
-### 書籍レビュー
-POST http://localhost:3001/api/v1/books/2/reviews
-Content-Type: application/json
-
-{
-    "score": 5,
-    "comment": "面白かったです"
-}
+### 書籍削除
+DELETE {{baseUrl}}/books/{{bookId}}

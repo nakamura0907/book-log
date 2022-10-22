@@ -18,6 +18,10 @@ class MinioConnection {
   fPutObject(bucketName: string, objectName: string, filePath: string) {
     this.client.fPutObject(bucketName, objectName, filePath);
   }
+
+  removeObject(bucketName: string, objectName: string) {
+    this.client.removeObject(bucketName, objectName);
+  }
 }
 
 export default MinioConnection;

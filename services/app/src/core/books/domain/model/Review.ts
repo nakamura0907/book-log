@@ -1,30 +1,26 @@
-import Id from "@/core/shared/Id";
+import BookComment from "../value/BookComment";
 import BookScore from "../value/BookScore";
 
 class Review {
-  private readonly _id: Id;
-  private readonly _score: BookScore;
-  private readonly _comment?: string;
+    private readonly _score: BookScore;
+    private readonly _comment: BookComment;
 
-  constructor(id: Id, score: BookScore, comment?: string) {
-    this._id = id;
-    this._score = score;
-    this._comment = comment;
+    constructor(score: BookScore, comment: BookComment) {
+        this._score = score;
+        this._comment = comment;
+    }
 
-    Object.freeze(this);
-  }
+    static init() {
+        return new Review(BookScore.UNSET, BookComment.EMPTY);
+    }
 
-  get id() {
-    return this._id;
-  }
+    get score() {
+        return this._score;
+    }
 
-  get score() {
-    return this._score;
-  }
-
-  get comment() {
-    return this._comment;
-  }
+    get comment() {
+        return this._comment;
+    }
 }
 
 export default Review;

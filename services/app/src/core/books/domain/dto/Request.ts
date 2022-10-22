@@ -1,30 +1,34 @@
 import { FileType } from "@/lib/File/File";
 
 export class AddBookRequest {
-  constructor(
-    readonly userId: number,
-    readonly title: string,
-    readonly status: number,
-    readonly coverImage?: FileType
-  ) {}
+    constructor(
+        readonly title: string,
+        readonly status: number | undefined,
+        readonly file: FileType | undefined,
+    ) {
+        Object.freeze(this);
+    }
 }
 
-export type FetchBookListOptions = {
-  status?: number;
-  skip?: number;
-  q?: string;
-};
-export class FetchBookListRequest {
-  constructor(
-    private readonly _userId: number,
-    private readonly _options: FetchBookListOptions
-  ) {}
+export class FetchOptionsRequest {
+    constructor(
+        readonly skip?: number,
+        readonly query?: string,
+        readonly status?: number,
+        readonly order?: string,
+    ) {
+        Object.freeze(this);
+    }
+}
 
-  get userId() {
-    return this._userId;
-  }
-
-  get options() {
-    return this._options;
-  }
+export class EditBookRequest {
+    constructor(
+        readonly title: string | undefined,
+        readonly status: number | undefined,
+        readonly file: FileType | undefined,
+        readonly score: number | undefined,
+        readonly comment: string | undefined,
+    ) {
+        Object.freeze(this);
+    }
 }

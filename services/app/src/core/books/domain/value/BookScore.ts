@@ -1,26 +1,26 @@
 import Exception from "@/lib/Exception";
 
-type Score = 0 | 1 | 2 | 3 | 4 | 5;
-
 class BookScore {
-  static readonly MIN_SCORE = 0;
-  static readonly MAX_SCORE = 5;
+    private readonly _value: number;
 
-  constructor(private readonly _value: number) {}
+    constructor(value: number) {
+        this._value = value;
+    }
 
-  get value() {
-    return this._value;
-  }
+    static get UNSET() {
+        return new BookScore(0);
+    }
 
-  static validate(value: number) {
-    if (!Number.isInteger(value)) throw new Exception("不正なスコアです");
-    if (value < this.MIN_SCORE || value > this.MAX_SCORE)
-      throw new Exception(
-        `書籍のスコアは${this.MIN_SCORE}から${this.MAX_SCORE}までの数値です`
-      );
+    static validate(value: number) {
+        if (value < 0 || value > 5 || !Number.isInteger(value)) {
+            throw new Exception("評価は0~5の整数で入力してください", 400);
+        }
+        return new BookScore(value);
+    }
 
-    return new BookScore(value as Score);
-  }
+    get value() {
+        return this._value;
+    }
 }
 
 export default BookScore;
