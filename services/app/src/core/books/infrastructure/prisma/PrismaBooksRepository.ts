@@ -5,7 +5,7 @@ import IBooksRepository from "../../domain/repository/IBooksRepository";
 import BookComment from "../../domain/value/BookComment";
 import BookScore from "../../domain/value/BookScore";
 import { GeneratedId } from "@/core/shared/Id";
-import { prisma } from "@/lib/Database/prisma";
+import { prisma } from "@/utils/Database/prisma";
 import { books, books_reviews, Prisma } from "@prisma/client";
 
 type PrismaBook = books & {

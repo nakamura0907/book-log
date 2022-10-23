@@ -1,4 +1,4 @@
-import Exception from "@/lib/Exception";
+import Exception from "@/utils/Exception";
 
 export type OrderLatest = "createdAt" | "-createdAt";
 export type OrderScore = "score" | "-score";

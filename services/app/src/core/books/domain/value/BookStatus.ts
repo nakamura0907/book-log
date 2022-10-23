@@ -1,4 +1,4 @@
-import Exception from "@/lib/Exception";
+import Exception from "@/utils/Exception";
 
 class BookStatus {
     private readonly _value: number;

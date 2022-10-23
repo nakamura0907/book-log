@@ -1,4 +1,4 @@
-import { FileType } from "@/lib/File/File";
+import { FileType } from "@/utils/File/File";
 
 export class AddBookRequest {
     constructor(

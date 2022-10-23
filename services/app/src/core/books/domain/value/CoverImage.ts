@@ -1,5 +1,5 @@
-import Exception from "@/lib/Exception";
-import { FileType } from "@/lib/File/File";
+import Exception from "@/utils/Exception";
+import { FileType } from "@/utils/File/File";
 
 export class CoverImageFile {
     private readonly _file: FileType;

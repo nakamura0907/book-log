@@ -1,4 +1,4 @@
-import Exception from "@/lib/Exception";
+import Exception from "@/utils/Exception";
 import Book from "./domain/model/Book";
 import IBooksRepository from "./domain/repository/IBooksRepository";
 import IBooksStorage from "./domain/repository/IBooksStorage";

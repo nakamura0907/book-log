@@ -1,8 +1,8 @@
-import Exception from "@/lib/Exception";
+import Exception from "@/utils/Exception";
 import BooksUseCase from "./BooksUseCase";
 import IBooksRepository from "./domain/repository/IBooksRepository";
 import IBooksStorage from "./domain/repository/IBooksStorage";
-import { toNumber } from "@/lib/util";
+import { toNumber } from "@/utils/util";
 import { NextFunction, Request, Response } from "express";
 import { AddBookRequest, EditBookRequest, FetchOptionsRequest } from "./domain/dto/Request";
 

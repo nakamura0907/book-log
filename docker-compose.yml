@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  # web
+  web:
+    image: node:current-alpine
+    working_dir: /usr/src/app
+    volumes:
+      - ./services/web:/usr/src/app
+    command: [sh, -c, npm run dev]
+    ports:
+      - 3000:3000
+
   # app
   app:
     image: node:current-alpine
