@@ -11,7 +11,7 @@ class BookStatus {
 
     static validate(value: number) {
         if (value < 0 || value > 3 || !Number.isInteger(value)) {
-            throw new Exception("書籍状態は0〜3の間で入力してください", 400);
+            throw new Exception("書籍状況は0〜3の間で入力してください", 400);
         }
         return new BookStatus(value);
     }

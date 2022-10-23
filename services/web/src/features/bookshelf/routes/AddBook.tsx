@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import Form from "@components/ui/form";
 import Button from '@components/ui/button';
 import Upload, { UploadFile } from '@components/ui/upload';
@@ -7,8 +6,8 @@ import { UploadOutlined } from '@components/ui/icons';
 import { useRouter } from 'next/router';
 import { addBook } from '../api/addBook';
 import Input from '@components/ui/input';
-import Radio from '@components/ui/radio';
 import { isAxiosError } from '@utils/axios';
+import Select from '@components/ui/select';
 
 type FormInstanceValues = {
     title: string;
@@ -19,7 +18,7 @@ type FormInstanceValues = {
     };
 }
 
-export const AddBook: NextPage = () => {
+export const AddBook = () => {
     const router = useRouter();
     const [form] = Form.useForm<FormInstanceValues>();
 
@@ -42,13 +41,6 @@ export const AddBook: NextPage = () => {
         }
     }
 
-    const options = [
-        { label: "未設定", value: 0 },
-        { label: "読みたい", value: 1 },
-        { label: "いま読んでいる", value: 2 },
-        { label: "読み終わった", value: 3 },
-    ]
-
     const normFile = (e: any) => {
         if (Array.isArray(e)) {
             return e;
@@ -62,8 +54,13 @@ export const AddBook: NextPage = () => {
                 <Form.Item label="本のタイトル" name="title" required={true}>
                     <Input />
                 </Form.Item>
-                <Form.Item label="読了状態" name="status" initialValue={0}>
-                    <Radio.Group options={options} optionType="button" />
+                <Form.Item label="読書状況" name="status" initialValue={0}>
+                    <Select>
+                        <Select.Option value={0}>未設定</Select.Option>
+                        <Select.Option value={1}>読みたい</Select.Option>
+                        <Select.Option value={2}>いま読んでいる</Select.Option>
+                        <Select.Option value={3}>読み終わった</Select.Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item label="表紙画像" name="coverImage" valuePropName='fileList' getValueFromEvent={normFile}>
                     <Upload
@@ -89,7 +86,7 @@ export const AddBook: NextPage = () => {
                     </Upload>
                 </Form.Item>
                 <Form.Item>
-                    <Button htmlType='submit' type='primary'>本棚に追加する</Button>
+                    <Button htmlType='submit' type='primary' className="block ml-auto">本棚に追加する</Button>
                 </Form.Item>
             </Form>
         </div>

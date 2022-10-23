@@ -1,11 +1,12 @@
 import type { NextPage } from 'next'
 import { BookshelfList } from '@features/bookshelf'
+import Layout from '@components/templates/Layout'
 
 const Bookshelf: NextPage = () => {
     return(
-        <div>
+        <Layout>
             <BookshelfList />
-        </div>
+        </Layout>
     )
 }
 

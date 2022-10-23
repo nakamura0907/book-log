@@ -1,6 +1,4 @@
-import type { NextPage } from 'next'
-
-export const BookshelfList: NextPage = () => {
+export const BookshelfList = () => {
     return (
         <div>
             {/* <div>ここにタブを表示してダッシュボードと切り替えれるようにする?</div> */}

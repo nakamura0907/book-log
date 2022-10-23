@@ -1,0 +1,62 @@
+/* Layout */
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+
+/* Spacing */
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.25em;
+}
+.not\:last\:mb-5:not(:last-child) {
+    margin-bottom: 1.25rem;
+}
+.ml-auto {
+    margin-left: auto;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Sizing */
+.w-full {
+    width: 100%;
+}
+
+.max-w-2xl {
+    max-width: 42rem;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+/* Typography */
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.tracking-widest {
+    letter-spacing: 0.1em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-white {
+    color: rgb(255 255 255);
+}
