@@ -1,0 +1,27 @@
+{
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.renderWhitespace": "boundary",
+    "editor.rulers": [140],
+    "editor.formatOnSave": true,
+    "files.encoding": "utf8",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "search.exclude": {
+      "public/**": true,
+      "node_modules/**": true
+    },
+    // "eslint.autoFixOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "csscomb.formatOnSave": true,
+    "csscomb.preset": "./.vscode/mycsscomb.json",
+    "rest-client.environmentVariables": {
+      "$shared": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYyNDI2MjI4fQ.Ouw18JfWGFKcn0ex6lUY0Ic14q2yIaHGj6f5AnpsGZg"
+      }
+    }
+  }

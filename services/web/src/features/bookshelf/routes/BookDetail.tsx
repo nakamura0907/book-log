@@ -1,48 +1,108 @@
-import Divider from '@components/ui/divider';
-import React from 'react'
+import React from "react";
+import Button from "@components/ui/button";
+import Divider from "@components/ui/divider";
+import { fetchById } from "../api/fetchById";
+import Rate from "@components/ui/rate";
+import Input from "@components/ui/input";
+import { Image } from "antd";
+
+type Book = {
+  id: number;
+  title: string;
+  status: string;
+  coverImage?: string;
+  review: {
+    score: number;
+    comment?: string;
+  };
+};
 
 type State = {
+  book?: Book;
 };
 
 type Props = {
-    bookId: string;
-}
+  bookId: string;
+};
 
-const initialState: State = {};
+const initialState: State = {
+  book: undefined,
+};
 
-export const BookDetail: React.FC<Props> = ( {bookId} ) => {
+export const BookDetail: React.FC<Props> = ({ bookId }) => {
+  const [book, setBook] = React.useState(initialState.book);
 
-    React.useEffect(() => {
-    }, []);
+  React.useEffect(() => {
+    (async () => {
+      const { data } = await fetchById(Number(bookId));
+      setBook(data);
+    })().catch((error) => {
+      console.log(error);
+    });
+  }, []);
 
-    return(
-        <div>
-            <div>ここに背景画像（ぼかし表紙画像）＋表紙画像を表示する</div>
-            <div>
-                <div>情報を修正する ボタン</div>
-                <div>本を削除する ボタン</div>
-            </div>
-            <Divider />
-            <div>
-                <div className='not:last:mb-5'>
-                    <span className='inline-block mb-1 text-lg font-bold'>タイトル</span>
-                    <div>本のタイトルを表示</div>
-                </div>
-                <div className='not:last:mb-5'>
-                    <span className='inline-block mb-1 text-lg font-bold'>読書状況</span>
-                    <div>読書状況を表示</div>
-                </div>
-            </div>
-            {/* 編集モードの場合、↑と入れ替えで編集フォームを表示する。追加時と同じ内容・見た目 */}
-            <Divider />
-            <div>
-                <div className='not:last:mb-5'>
-                    <span className='inline-block mb-1 text-lg font-bold'>評価・感想</span>
-                    <div>レート</div>
-                    <div>コメントエリア</div>
-                </div>
-                <div>レビューを保存する ボタン</div>
-            </div>
+  if (!book) {
+    return <></>;
+  }
+  return (
+    <div>
+      {book.coverImage && (
+        <div className="overflow-hidden relative mb-7">
+          <Image
+            src={book.coverImage}
+            wrapperClassName="absolute top-1/2 left-1/2 z-10 w-1/2 h-1/2 z-10"
+            className="h-full object-contain"
+            wrapperStyle={{
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          <Image
+            src={book.coverImage}
+            preview={false}
+            wrapperStyle={{
+              maxHeight: "400px",
+              filter: "blur(10px) brightness(0.85)",
+            }}
+          />
         </div>
-    )
-}
+      )}
+      <div className="flex">
+        <Button danger className="ml-auto mr-5">
+          本を削除する
+        </Button>
+        <Button type="primary">情報を修正する</Button>
+      </div>
+      <Divider />
+      <div>
+        <div className="not:last:mb-5">
+          <span className="inline-block mb-1 text-lg font-bold">タイトル</span>
+          <div>{book.title}</div>
+        </div>
+        <div className="not:last:mb-5">
+          <span className="inline-block mb-1 text-lg font-bold">読書状況</span>
+          <div>{book.status}</div>
+        </div>
+      </div>
+      {/* 編集モードの場合、↑と入れ替えで編集フォームを表示する。追加時と同じ内容・見た目 */}
+      <Divider />
+      <div>
+        <div className="not:last:mb-5">
+          <span className="inline-block mb-1 text-lg font-bold">
+            評価・感想
+          </span>
+          <div>
+            <Rate defaultValue={book.review.score} />
+          </div>
+          <div>
+            <Input.TextArea rows={5}>{book.review.comment}</Input.TextArea>
+          </div>
+        </div>
+        <div>
+          <Button type="primary" className="block ml-auto">
+            レビューを保存する
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
