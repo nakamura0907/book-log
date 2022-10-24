@@ -1,10 +1,14 @@
 import React from "react";
 import Button from "@components/ui/button";
 import Divider from "@components/ui/divider";
-import { fetchById } from "../api/fetchById";
-import Rate from "@components/ui/rate";
 import Input from "@components/ui/input";
+import Rate from "@components/ui/rate";
+import Form from "@components/ui/form";
+import { fetchById } from "../api/fetchById";
 import { Image } from "antd";
+
+import styles from "../styles/index.module.css";
+import { editBook } from "../api/editBook";
 
 type Book = {
   id: number;
@@ -32,6 +36,8 @@ const initialState: State = {
 export const BookDetail: React.FC<Props> = ({ bookId }) => {
   const [book, setBook] = React.useState(initialState.book);
 
+  const [reviewForm] = Form.useForm();
+
   React.useEffect(() => {
     (async () => {
       const { data } = await fetchById(Number(bookId));
@@ -40,6 +46,21 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
       console.log(error);
     });
   }, []);
+
+  const handleReviewSubmit = async (values: any) => {
+    try {
+      const score = values.score ?? 0;
+      const comment = values.comment;
+
+      const { data } = await editBook(Number(bookId), {
+        score,
+        comment,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!book) {
     return <></>;
@@ -85,24 +106,32 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
       </div>
       {/* 編集モードの場合、↑と入れ替えで編集フォームを表示する。追加時と同じ内容・見た目 */}
       <Divider />
-      <div>
+      <Form form={reviewForm} onFinish={handleReviewSubmit}>
         <div className="not:last:mb-5">
           <span className="inline-block mb-1 text-lg font-bold">
             評価・感想
           </span>
           <div>
-            <Rate defaultValue={book.review.score} />
+            <Form.Item noStyle name="score" initialValue={book.review.score}>
+              <Rate className={styles.rate} />
+            </Form.Item>
           </div>
           <div>
-            <Input.TextArea rows={5}>{book.review.comment}</Input.TextArea>
+            <Form.Item
+              noStyle
+              name="comment"
+              initialValue={book.review.comment}
+            >
+              <Input.TextArea rows={5} />
+            </Form.Item>
           </div>
         </div>
         <div>
-          <Button type="primary" className="block ml-auto">
+          <Button type="primary" htmlType="submit" className="block ml-auto">
             レビューを保存する
           </Button>
         </div>
-      </div>
+      </Form>
     </div>
   );
 };
