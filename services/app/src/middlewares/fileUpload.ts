@@ -1,8 +1,11 @@
 import multer from "multer";
-import { storage } from "@/utils/File";
+import { storage } from "@/lib/File";
 
-const fileUpload = multer({ storage, fileFilter(_, __, cb) {
-    cb(null, true)
-}, })
+const fileUpload = multer({
+  storage,
+  fileFilter(_, __, cb) {
+    cb(null, true);
+  },
+});
 
-export default fileUpload
+export default fileUpload;

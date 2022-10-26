@@ -73,6 +73,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
     try {
       const { data } = await editBook(Number(bookId), {
         title: values.title,
+        price: values.price,
         status: values.status,
         file: values.coverImage
           ? values.coverImage[0].originFileObj
@@ -162,6 +163,10 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
               <div>{book.title}</div>
             </div>
             <div className="not:last:mb-5">
+              <span className="inline-block mb-1 text-lg font-bold">価格</span>
+              <div>{book.price}</div>
+            </div>
+            <div className="not:last:mb-5">
               <span className="inline-block mb-1 text-lg font-bold">
                 読書状況
               </span>
@@ -183,12 +188,20 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
         ) : (
           <Form form={editForm} layout="vertical" onFinish={handleEditSubmit}>
             <Form.Item
-              label="タイトル"
+              label="本のタイトル"
               name="title"
               initialValue={book.title}
               required
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              label="本の価格"
+              name="price"
+              initialValue={book.price}
+              required
+            >
+              <Input type="number" />
             </Form.Item>
             <Form.Item
               label="読書状況"

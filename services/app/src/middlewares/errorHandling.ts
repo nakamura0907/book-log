@@ -1,6 +1,6 @@
 import type { Express, NextFunction, Request, Response } from "express";
-import Serializer from "@/utils/Serializer";
-import Exception from "@/utils/Exception";
+import Serializer from "@/lib/Serializer";
+import Exception from "@/lib/Exception";
 
 const errorHandling = (app: Express) => {
   app.use((error: Exception, _: Request, res: Response, __: NextFunction) => {

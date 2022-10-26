@@ -1,16 +1,16 @@
-import Exception from "@/utils/Exception";
-import Book from "./domain/model/Book";
-import IBooksRepository from "./domain/repository/IBooksRepository";
-import IBooksStorage from "./domain/repository/IBooksStorage";
-import FetchOptions from "./domain/model/FetchOptions";
-import { GeneratedId } from "../shared/Id";
+import Exception from "@/lib/Exception";
+import Book from "../domain/model/Book";
+import IBooksRepository from "../domain/repository/IBooksRepository";
+import IBooksStorage from "../domain/repository/IBooksStorage";
+import FetchOptions from "../domain/model/FetchOptions";
+import { GeneratedId } from "../../shared/Id";
 import {
   AddBookRequest,
   EditBookRequest,
   FetchOptionsRequest,
-} from "./domain/dto/Request";
-import { bookResponse } from "./domain/dto/Response";
-import { CoverImageFile, CoverImageURL } from "./domain/value/CoverImage";
+} from "../domain/dto/Request";
+import { bookResponse } from "../domain/dto/Response";
+import { CoverImageFile, CoverImageURL } from "../domain/value/CoverImage";
 
 class BooksUseCase {
   private readonly repository: IBooksRepository;
@@ -22,6 +22,17 @@ class BooksUseCase {
   }
 
   /**
+   * ユースケース: ダッシュボード
+   */
+  async fetchDashboard() {
+    const result = await this.repository.fetchDashboard();
+    return {
+      bookStatusRatio: result.bookStatusRatio,
+      notFinishedReadingTotalPrice: result.notFinishedReadingTotalPrice,
+    };
+  }
+
+  /**
    * ユースケース: 書籍の新規作成
    */
   async addBook(req: AddBookRequest) {
@@ -29,7 +40,12 @@ class BooksUseCase {
     const coverImageFile = req.file
       ? CoverImageFile.validate(req.file, this.storage.COVER_IMAGE_URL)
       : undefined;
-    const registerBook = Book.init(req.title, req.status, coverImageFile);
+    const registerBook = Book.init(
+      req.title,
+      req.price,
+      req.status,
+      coverImageFile
+    );
 
     // ファイルアップロード
     if (coverImageFile) {

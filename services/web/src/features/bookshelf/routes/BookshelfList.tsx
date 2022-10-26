@@ -100,6 +100,8 @@ export const BookshelfList = () => {
             <Select.Option value="-createdAt">新しい順</Select.Option>
             <Select.Option value="createdAt">古い順</Select.Option>
             <Select.Option value="-score">高評価順</Select.Option>
+            <Select.Option value="-price">価格が高い順</Select.Option>
+            <Select.Option value="price">価格が安い順</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item name="status" initialValue={"all"}>

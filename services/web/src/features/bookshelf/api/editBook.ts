@@ -4,6 +4,7 @@ import { BookDetail } from "../types";
 
 export type EditBookDTO = {
   title?: string;
+  price?: number;
   status?: number;
   file?: File;
   score?: number;
@@ -17,6 +18,9 @@ export const editBook = async (
   const formData = new FormData();
   if (data.title) {
     formData.append("title", data.title);
+  }
+  if (data.price) {
+    formData.append("price", data.price.toString());
   }
   if (data.status) {
     formData.append("status", data.status.toString());

@@ -1,4 +1,4 @@
-import Exception from "@/utils/Exception";
+import Exception from "@/lib/Exception";
 
 /**
  * レスポンス生成用クラス

@@ -1,4 +1,4 @@
-import Exception from "@/utils/Exception";
+import Exception from "@/lib/Exception";
 
 export class GeneratedId {
   private readonly _value: number;

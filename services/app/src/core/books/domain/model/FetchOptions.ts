@@ -1,9 +1,10 @@
-import Exception from "@/utils/Exception";
+import Exception from "@/lib/Exception";
 
 export type OrderLatest = "createdAt" | "-createdAt";
 export type OrderScore = "score" | "-score";
 export type OrderUpdated = "-updatedAt";
-export type Order = OrderLatest | OrderScore | OrderUpdated;
+export type OrderPrice = "price" | "-price";
+export type Order = OrderLatest | OrderScore | OrderUpdated | OrderPrice;
 
 class FetchOptions {
   private readonly _skip?: number;
@@ -58,6 +59,8 @@ class FetchOptions {
       "score",
       "-score",
       "-updatedAt",
+      "price",
+      "-price",
     ].includes(value);
   }
 }

@@ -11,6 +11,7 @@ import Select from "@components/ui/select";
 
 type FormInstanceValues = {
   title: string;
+  price: number;
   status: number;
   coverImage?: {
     file: UploadFile;
@@ -26,6 +27,7 @@ export const AddBook = () => {
     try {
       const { data } = await addBook({
         title: values.title,
+        price: values.price,
         status: values.status,
         coverImage: values.coverImage?.file.originFileObj,
       });
@@ -53,6 +55,9 @@ export const AddBook = () => {
       <Form form={form} layout="vertical" onFinish={handleFinish}>
         <Form.Item label="本のタイトル" name="title" required={true}>
           <Input />
+        </Form.Item>
+        <Form.Item label="本の価格" name="price" required={true}>
+          <Input type="number" />
         </Form.Item>
         <Form.Item label="読書状況" name="status" initialValue={0}>
           <Select>

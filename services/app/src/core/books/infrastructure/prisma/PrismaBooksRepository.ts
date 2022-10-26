@@ -5,8 +5,10 @@ import IBooksRepository from "../../domain/repository/IBooksRepository";
 import BookComment from "../../domain/value/BookComment";
 import BookScore from "../../domain/value/BookScore";
 import { GeneratedId } from "@/core/shared/Id";
-import { prisma } from "@/utils/Database/prisma";
+import { prisma } from "@/lib/Database/prisma";
 import { books, books_reviews, Prisma } from "@prisma/client";
+import Dashboard from "../../domain/model/Dashboard";
+import BookStatus from "../../domain/value/BookStatus";
 
 type PrismaBook = books & {
   books_reviews: books_reviews | null;
@@ -14,6 +16,41 @@ type PrismaBook = books & {
 type PrismaBooksOrder = Prisma.Enumerable<Prisma.booksOrderByWithRelationInput>;
 
 class PrismaBooksRepository implements IBooksRepository {
+  async fetchDashboard() {
+    const books = await prisma.books.findMany({
+      where: {
+        NOT: {
+          status: BookStatus.UNSET.value,
+        },
+      },
+    });
+
+    let unread = 0;
+    let reading = 0;
+    let read = 0;
+    let total = 0;
+    books.forEach((book) => {
+      if (book.status == 1) {
+        unread++;
+      } else if (book.status == 2) {
+        reading++;
+      } else if (book.status == 3) {
+        read++;
+      }
+
+      total += 1;
+    });
+
+    return new Dashboard(
+      {
+        unread,
+        reading,
+        read,
+      },
+      total
+    );
+  }
+
   save(book: Book): Promise<Book> {
     if (book.isGenerated) {
       return this._update(book);
@@ -77,6 +114,7 @@ class PrismaBooksRepository implements IBooksRepository {
     const newBook = await prisma.books.create({
       data: {
         title: book.title.value,
+        price: book.price.value,
         status: book.status.value,
         cover_image: book.coverImage?.value,
         created_at: book.createdAt,
@@ -101,6 +139,7 @@ class PrismaBooksRepository implements IBooksRepository {
       },
       data: {
         title: book.title.value,
+        price: book.price.value,
         status: book.status.value,
         cover_image: book.coverImage?.value,
         updated_at: book.updatedAt,
@@ -135,6 +174,7 @@ class PrismaBooksRepository implements IBooksRepository {
     return Book.create(
       prismaBook.id,
       prismaBook.title,
+      prismaBook.price,
       prismaBook.status,
       coverImage,
       prismaBook.created_at,
@@ -153,6 +193,8 @@ class PrismaBooksRepository implements IBooksRepository {
       result.books_reviews = {
         score: order == "score" ? "asc" : "desc",
       };
+    } else if (order == "price" || order == "-price") {
+      result.price = order == "price" ? "asc" : "desc";
     } else if (order == "-updatedAt") {
       result.updated_at = "desc";
     }

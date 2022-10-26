@@ -1,6 +1,7 @@
 export type BookDetail = {
   id: number;
   title: string;
+  price: number;
   status: string;
   coverImage: string | undefined;
   createdAt: Date;
