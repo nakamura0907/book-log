@@ -41,6 +41,9 @@
   padding-left : 1rem;
 }
 
+.mb-0 {
+  margin-bottom : 0;
+}
 .mb-1 {
   margin-bottom : .25em;
 }

@@ -1,4 +1,6 @@
 import { axios } from "@utils/axios";
+import { AxiosResponse } from "axios";
+import { BookDetail } from "../types";
 
 export type EditBookDTO = {
   title?: string;
@@ -8,7 +10,10 @@ export type EditBookDTO = {
   comment?: string;
 };
 
-export const editBook = async (id: number, data: EditBookDTO) => {
+export const editBook = async (
+  id: number,
+  data: EditBookDTO
+): Promise<AxiosResponse<BookDetail, any>> => {
   const formData = new FormData();
   if (data.title) {
     formData.append("title", data.title);
@@ -17,7 +22,7 @@ export const editBook = async (id: number, data: EditBookDTO) => {
     formData.append("status", data.status.toString());
   }
   if (data.file) {
-    formData.append("file", data.file);
+    formData.append("coverImage", data.file);
   }
   if (data.score) {
     formData.append("score", data.score.toString());
