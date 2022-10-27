@@ -22,16 +22,16 @@ export const editBook = async (
   if (data.price) {
     formData.append("price", data.price.toString());
   }
-  if (data.status) {
+  if (data.status !== undefined) {
     formData.append("status", data.status.toString());
   }
   if (data.file) {
     formData.append("coverImage", data.file);
   }
-  if (data.score) {
+  if (data.score !== undefined) {
     formData.append("score", data.score.toString());
   }
-  if (data.comment) {
+  if (data.comment !== undefined) {
     formData.append("comment", data.comment);
   }
 

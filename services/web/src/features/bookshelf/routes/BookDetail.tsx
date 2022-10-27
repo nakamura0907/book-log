@@ -94,7 +94,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
   const handleReviewSubmit = async (values: any) => {
     try {
       const score = values.score ?? 0;
-      const comment = values.comment;
+      const comment = values.comment ?? "";
 
       const { data } = await editBook(Number(bookId), {
         score,
@@ -148,6 +148,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
                 maxHeight: "400px",
                 filter: "blur(10px) brightness(0.85)",
               }}
+              wrapperClassName="w-full"
             />
           </div>
           <Divider />
@@ -164,7 +165,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
             </div>
             <div className="not:last:mb-5">
               <span className="inline-block mb-1 text-lg font-bold">価格</span>
-              <div>{book.price}</div>
+              <div>{book.price.toLocaleString()}円</div>
             </div>
             <div className="not:last:mb-5">
               <span className="inline-block mb-1 text-lg font-bold">

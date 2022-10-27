@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
       setRatio({
         read: ratio.read,
-        total: ratio.unread + ratio.reading,
+        total: ratio.unread + ratio.reading + ratio.read,
       });
       setTotalAmount(data.notFinishedReadingTotalPrice);
     })().catch((error) => {

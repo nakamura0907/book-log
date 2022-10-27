@@ -10,4 +10,4 @@
 
 TODO:
 
-- Webのリファクタリング（featuresのコンポーネント分割）
+- 全体リファクタリング（featuresのコンポーネント分割・削除undefinedなど）

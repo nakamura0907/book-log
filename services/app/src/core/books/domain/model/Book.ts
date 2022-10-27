@@ -159,19 +159,25 @@ class Book {
 
   copyWith(values: EditBookRequest, coverImage: CoverImageFile | undefined) {
     const title = values.title ? BookTitle.validate(values.title) : this._title;
-    const price = values.price ? BookPrice.validate(values.price) : this._price;
-    const status = values.status
-      ? BookStatus.validate(values.status)
-      : this._status;
+    const price =
+      values.price !== undefined
+        ? BookPrice.validate(values.price)
+        : this._price;
+    const status =
+      values.status !== undefined
+        ? BookStatus.validate(values.status)
+        : this._status;
     const coverImageUrl = coverImage ? coverImage.fullUrl : this._coverImage;
     const updatedAt = now();
 
-    const score = values.score
-      ? BookScore.validate(values.score)
-      : this._review.score;
-    const comment = values.comment
-      ? BookComment.validate(values.comment)
-      : this._review.comment;
+    const score =
+      values.score !== undefined
+        ? BookScore.validate(values.score)
+        : this._review.score;
+    const comment =
+      values.comment !== undefined
+        ? BookComment.validate(values.comment)
+        : this._review.comment;
     const review = new Review(score, comment);
 
     return new Book(
