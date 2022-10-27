@@ -51,7 +51,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
             </Col>
           </Row>
         </AntLayout.Header>
-        <AntLayout.Content className="px-4 mx-auto w-full max-w-2xl">
+        <AntLayout.Content className="px-4 py-10 mx-auto w-full max-w-2xl">
           {children}
         </AntLayout.Content>
         <AntLayout.Footer>

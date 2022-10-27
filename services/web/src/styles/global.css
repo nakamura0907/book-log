@@ -40,6 +40,10 @@
   padding-right : 1rem;
   padding-left : 1rem;
 }
+.py-10 {
+  padding-top : 2.5rem;
+  padding-bottom : 2.5rem;
+}
 
 .mb-0 {
   margin-bottom : 0;

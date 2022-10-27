@@ -28,7 +28,7 @@ class PrismaBooksRepository implements IBooksRepository {
     let unread = 0;
     let reading = 0;
     let read = 0;
-    let total = 0;
+    let price = 0;
     books.forEach((book) => {
       if (book.status == 1) {
         unread++;
@@ -38,7 +38,9 @@ class PrismaBooksRepository implements IBooksRepository {
         read++;
       }
 
-      total += 1;
+      if (book.status) {
+        price += book.price;
+      }
     });
 
     return new Dashboard(
@@ -47,7 +49,7 @@ class PrismaBooksRepository implements IBooksRepository {
         reading,
         read,
       },
-      total
+      price
     );
   }
 
