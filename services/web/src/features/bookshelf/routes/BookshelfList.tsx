@@ -148,7 +148,12 @@ export const BookshelfList = () => {
                       }
                       title={item.title}
                       description={
-                        <Rate disabled defaultValue={item.review.score} />
+                        <div>
+                          <Rate disabled defaultValue={item.review.score} />
+                          <div>
+                            {item.price.toLocaleString()}円 / {item.status}
+                          </div>
+                        </div>
                       }
                     />
                   </List.Item>

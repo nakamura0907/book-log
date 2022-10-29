@@ -13,10 +13,7 @@ type FormInstanceValues = {
   title: string;
   price: number;
   status: number;
-  coverImage?: {
-    file: UploadFile;
-    fileList: UploadFile[];
-  };
+  coverImage?: UploadFile[];
 };
 
 export const AddBook = () => {
@@ -29,7 +26,9 @@ export const AddBook = () => {
         title: values.title,
         price: values.price,
         status: values.status,
-        coverImage: values.coverImage?.file.originFileObj,
+        coverImage: values.coverImage
+          ? values.coverImage[0].originFileObj
+          : undefined,
       });
 
       const id = data.id;
@@ -40,6 +39,7 @@ export const AddBook = () => {
       } else {
         message.error("本の追加に失敗しました");
       }
+      console.log(error);
     }
   };
 
@@ -59,7 +59,7 @@ export const AddBook = () => {
         <Form.Item label="本の価格" name="price" required={true}>
           <Input type="number" />
         </Form.Item>
-        <Form.Item label="読書状況" name="status" initialValue={0}>
+        <Form.Item label="読書状態" name="status" initialValue={0}>
           <Select>
             <Select.Option value={0}>未設定</Select.Option>
             <Select.Option value={1}>読みたい</Select.Option>

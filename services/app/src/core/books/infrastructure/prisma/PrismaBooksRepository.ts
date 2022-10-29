@@ -38,7 +38,7 @@ class PrismaBooksRepository implements IBooksRepository {
         read++;
       }
 
-      if (book.status) {
+      if (book.status && book.status != 3) {
         price += book.price;
       }
     });
