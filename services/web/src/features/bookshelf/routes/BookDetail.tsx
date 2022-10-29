@@ -169,7 +169,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
             </div>
             <div className="not:last:mb-5">
               <span className="inline-block mb-1 text-lg font-bold">
-                読書状況
+                読書状態
               </span>
               <div>{book.status}</div>
             </div>
@@ -205,7 +205,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
               <Input type="number" />
             </Form.Item>
             <Form.Item
-              label="読書状況"
+              label="読書状態"
               name="status"
               initialValue={convertStatusLabelToInt(book.status)}
             >
