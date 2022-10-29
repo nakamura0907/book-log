@@ -53,7 +53,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
         message.error("本の取得に失敗しました");
       }
     });
-  }, []);
+  }, [bookId]);
 
   const handleRemoveClick = async () => {
     if (confirm("本を削除しますか？")) {
@@ -122,6 +122,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
           <div className="overflow-hidden relative">
             <Image
               src={book.coverImage}
+              alt={book.title}
               wrapperClassName="absolute top-1/2 left-1/2 z-10 w-1/2 h-1/2 z-10"
               className="h-full object-contain"
               wrapperStyle={{
@@ -130,6 +131,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
             />
             <Image
               src={book.coverImage}
+              alt={`${book.title} バックグラウンド`}
               preview={false}
               wrapperStyle={{
                 maxHeight: "400px",

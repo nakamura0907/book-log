@@ -1,4 +1,4 @@
-export type BookDetail = {
+type Book = {
   id: number;
   title: string;
   price: number;
@@ -6,8 +6,13 @@ export type BookDetail = {
   coverImage: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  review: {
-    score: number;
-    comment: string | undefined;
-  };
+};
+
+type Review = {
+  score: number;
+  comment: string | undefined;
+};
+
+export type BookDetail = Book & {
+  review: Review;
 };

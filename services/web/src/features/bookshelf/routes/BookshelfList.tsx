@@ -43,30 +43,33 @@ export const BookshelfList = () => {
 
   const [form] = Form.useForm();
 
-  const loadMoreData = async (skip: number, options?: Options) => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-
-    try {
-      const response = await fetchList({
-        skip,
-        ...options,
-      });
-      setData((prev) => [...prev, ...response.data.books]);
-
-      if (response.data.isEnd) setHasMore(false);
-    } catch (error) {
-      if (isAxiosError(error) && error.response?.status != 500) {
-        message.error(error.response?.data.message);
-      } else {
-        message.error("本の取得に失敗しました");
+  const loadMoreData = React.useCallback(
+    async (skip: number, options?: Options) => {
+      if (isLoading || !hasMore) {
+        return;
       }
-    }
+      setIsLoading(true);
 
-    setIsLoading(false);
-  };
+      try {
+        const response = await fetchList({
+          skip,
+          ...options,
+        });
+        setData((prev) => [...prev, ...response.data.books]);
+
+        if (response.data.isEnd) setHasMore(false);
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status != 500) {
+          message.error(error.response?.data.message);
+        } else {
+          message.error("本の取得に失敗しました");
+        }
+      }
+
+      setIsLoading(false);
+    },
+    [isLoading, hasMore]
+  );
 
   const handleSubmit = (values: any) => {
     setData(initialState.data);
@@ -82,7 +85,7 @@ export const BookshelfList = () => {
 
   React.useEffect(() => {
     loadMoreData(initialState.data.length);
-  }, []);
+  }, [loadMoreData]);
 
   return (
     <div>
@@ -134,6 +137,7 @@ export const BookshelfList = () => {
                             height={100}
                             width={80}
                             preview={false}
+                            alt={item.title}
                           />
                         ) : (
                           <Skeleton.Image style={{ width: 80, height: 100 }} />
