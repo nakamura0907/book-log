@@ -10,4 +10,5 @@
 
 TODO:
 
-- 全体リファクタリング（featuresのコンポーネント分割・削除undefinedなど）
+- 入力フォーム修正
+    - rules,分割

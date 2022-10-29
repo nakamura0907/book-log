@@ -49,7 +49,7 @@ export const AddBook = () => {
           <Input />
         </Form.Item>
         <Form.Item label="本の価格" name="price" required={true}>
-          <Input type="number" />
+          <Input type="number" min={0} />
         </Form.Item>
         <BookStatusSelect label="読書状態" initialValue={0} />
         <BookCoverUpload />

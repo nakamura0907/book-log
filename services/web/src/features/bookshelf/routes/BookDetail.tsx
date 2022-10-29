@@ -179,7 +179,7 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
               initialValue={book.price}
               required
             >
-              <Input type="number" />
+              <Input type="number" min={0} />
             </Form.Item>
             <BookStatusSelect
               label="読書状態"
