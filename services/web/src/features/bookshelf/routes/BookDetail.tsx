@@ -2,21 +2,22 @@ import React from "react";
 import Button from "@components/ui/button";
 import Divider from "@components/ui/divider";
 import Input from "@components/ui/input";
-import Rate from "@components/ui/rate";
+import Rate from "../components/rate";
 import Form from "@components/ui/form";
 import Image from "@components/ui/image";
-import Upload from "@components/ui/upload";
 import message from "@components/ui/message";
-import Select from "@components/ui/select";
 import removeBook from "../api/removeBook";
 import { fetchById } from "../api/fetchById";
 import { editBook } from "../api/editBook";
 import { isAxiosError } from "@utils/axios";
 import { useRouter } from "next/router";
-import { UploadOutlined } from "@components/ui/icons";
 import { BookDetail as BookDetailType } from "../types";
-
-import styles from "../styles/index.module.css";
+import BookInfoItem from "../components/book-info-item";
+import {
+  BookCoverUpload,
+  BookStatusSelect,
+  convertStatusLabelToInt,
+} from "../components/form-field";
 
 type State = {
   book?: BookDetailType;
@@ -111,20 +112,6 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
     }
   };
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const convertStatusLabelToInt = (status: string) => {
-    if (status == "読みたい") return 1;
-    if (status == "いま読んでる") return 2;
-    if (status == "読み終わった") return 3;
-    return 0;
-  };
-
   if (!book) {
     return <></>;
   }
@@ -157,22 +144,12 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
       <div>
         {!isEditMode ? (
           <>
-            <div className="not:last:mb-5">
-              <span className="inline-block mb-1 text-lg font-bold">
-                タイトル
-              </span>
-              <div>{book.title}</div>
-            </div>
-            <div className="not:last:mb-5">
-              <span className="inline-block mb-1 text-lg font-bold">価格</span>
-              <div>{book.price.toLocaleString()}円</div>
-            </div>
-            <div className="not:last:mb-5">
-              <span className="inline-block mb-1 text-lg font-bold">
-                読書状態
-              </span>
-              <div>{book.status}</div>
-            </div>
+            <BookInfoItem label="タイトル" body={book.title} />
+            <BookInfoItem
+              label="価格"
+              body={`${book.price.toLocaleString()}円`}
+            />
+            <BookInfoItem label="読書状態" body={book.status} />
             <div className="flex">
               <Button
                 danger
@@ -204,53 +181,11 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
             >
               <Input type="number" />
             </Form.Item>
-            <Form.Item
+            <BookStatusSelect
               label="読書状態"
-              name="status"
               initialValue={convertStatusLabelToInt(book.status)}
-            >
-              <Select>
-                <Select.Option value={0}>未設定</Select.Option>
-                <Select.Option value={1}>読みたい</Select.Option>
-                <Select.Option value={2}>いま読んでいる</Select.Option>
-                <Select.Option value={3}>読み終わった</Select.Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="表紙画像"
-              name="coverImage"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-            >
-              <Upload
-                maxCount={1}
-                listType="picture"
-                beforeUpload={(file) => {
-                  // ファイル拡張子のチェック
-                  const isImage =
-                    file.type === "image/jpeg" ||
-                    file.type === "image/png" ||
-                    file.type === "image/gif";
-                  if (!isImage) {
-                    message.error("画像ファイルを選択してください");
-                    return Upload.LIST_IGNORE;
-                  }
-
-                  // ファイルサイズのチェック
-                  const fileSize = file.size / 1024 / 1024;
-                  if (fileSize > 2) {
-                    message.error(
-                      "アップロードできる画像のサイズは2MBまでです"
-                    );
-                    return Upload.LIST_IGNORE;
-                  }
-                }}
-              >
-                <Button icon={<UploadOutlined />}>
-                  表紙画像のアップロード
-                </Button>
-              </Upload>
-            </Form.Item>
+            />
+            <BookCoverUpload />
             <div className="flex">
               <Button
                 className="ml-auto mr-5"
@@ -270,25 +205,31 @@ export const BookDetail: React.FC<Props> = ({ bookId }) => {
       </div>
       <Divider />
       <Form form={reviewForm} onFinish={handleReviewSubmit}>
-        <div className="not:last:mb-5">
-          <span className="inline-block mb-1 text-lg font-bold">
-            評価・感想
-          </span>
-          <div>
-            <Form.Item noStyle name="score" initialValue={book.review.score}>
-              <Rate className={styles.rate} />
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item
-              noStyle
-              name="comment"
-              initialValue={book.review.comment}
-            >
-              <Input.TextArea rows={5} />
-            </Form.Item>
-          </div>
-        </div>
+        <BookInfoItem
+          label="評価・感想"
+          body={
+            <>
+              <div>
+                <Form.Item
+                  noStyle
+                  name="score"
+                  initialValue={book.review.score}
+                >
+                  <Rate />
+                </Form.Item>
+              </div>
+              <div>
+                <Form.Item
+                  noStyle
+                  name="comment"
+                  initialValue={book.review.comment}
+                >
+                  <Input.TextArea rows={5} />
+                </Form.Item>
+              </div>
+            </>
+          }
+        />
         <div>
           <Button type="primary" htmlType="submit" className="block ml-auto">
             レビューを保存する

@@ -1,13 +1,12 @@
 import Form from "@components/ui/form";
 import Button from "@components/ui/button";
-import Upload, { UploadFile } from "@components/ui/upload";
 import message from "@components/ui/message";
-import { UploadOutlined } from "@components/ui/icons";
+import Input from "@components/ui/input";
+import { UploadFile } from "@components/ui/upload";
 import { useRouter } from "next/router";
 import { addBook } from "../api/addBook";
-import Input from "@components/ui/input";
 import { isAxiosError } from "@utils/axios";
-import Select from "@components/ui/select";
+import { BookCoverUpload, BookStatusSelect } from "../components/form-field";
 
 type FormInstanceValues = {
   title: string;
@@ -43,13 +42,6 @@ export const AddBook = () => {
     }
   };
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
   return (
     <div>
       <Form form={form} layout="vertical" onFinish={handleFinish}>
@@ -59,45 +51,8 @@ export const AddBook = () => {
         <Form.Item label="本の価格" name="price" required={true}>
           <Input type="number" />
         </Form.Item>
-        <Form.Item label="読書状態" name="status" initialValue={0}>
-          <Select>
-            <Select.Option value={0}>未設定</Select.Option>
-            <Select.Option value={1}>読みたい</Select.Option>
-            <Select.Option value={2}>いま読んでいる</Select.Option>
-            <Select.Option value={3}>読み終わった</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="表紙画像"
-          name="coverImage"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-        >
-          <Upload
-            maxCount={1}
-            listType="picture"
-            beforeUpload={(file) => {
-              // ファイル拡張子のチェック
-              const isImage =
-                file.type === "image/jpeg" ||
-                file.type === "image/png" ||
-                file.type === "image/gif";
-              if (!isImage) {
-                message.error("画像ファイルを選択してください");
-                return Upload.LIST_IGNORE;
-              }
-
-              // ファイルサイズのチェック
-              const fileSize = file.size / 1024 / 1024;
-              if (fileSize > 2) {
-                message.error("アップロードできる画像のサイズは2MBまでです");
-                return Upload.LIST_IGNORE;
-              }
-            }}
-          >
-            <Button icon={<UploadOutlined />}>表紙画像のアップロード</Button>
-          </Upload>
-        </Form.Item>
+        <BookStatusSelect label="読書状態" initialValue={0} />
+        <BookCoverUpload />
         <Form.Item>
           <Button htmlType="submit" type="primary" className="block ml-auto">
             本棚に追加する

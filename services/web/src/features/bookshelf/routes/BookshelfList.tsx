@@ -1,18 +1,19 @@
 import React from "react";
 import Image from "@components/ui/image";
 import List from "@components/ui/list";
-import Rate from "@components/ui/rate";
 import Skeleton from "@components/ui/skeleton";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import message from "@components/ui/message";
-import { fetchList, FetchListDTO } from "../api/fetchList";
-import { BookDetail } from "../types";
-import { isAxiosError } from "@utils/axios";
 import Form from "@components/ui/form";
 import Input from "@components/ui/input";
 import Button from "@components/ui/button";
 import Select from "@components/ui/select";
+import Rate from "../components/rate";
+import { fetchList, FetchListDTO } from "../api/fetchList";
+import { BookDetail } from "../types";
+import { isAxiosError } from "@utils/axios";
+import { BookStatusSelect } from "../components/form-field";
 
 type Options = Omit<FetchListDTO, "skip">;
 
@@ -104,15 +105,7 @@ export const BookshelfList = () => {
             <Select.Option value="price">価格が安い順</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item name="status" initialValue={"all"}>
-          <Select>
-            <Select.Option value={"all"}>全て</Select.Option>
-            <Select.Option value={0}>未設定</Select.Option>
-            <Select.Option value={1}>読みたい</Select.Option>
-            <Select.Option value={2}>いま読んでる</Select.Option>
-            <Select.Option value={3}>読み終わった</Select.Option>
-          </Select>
-        </Form.Item>
+        <BookStatusSelect initialValue={"all"} withAll />
       </Form>
       <div
         id="scrollable"
