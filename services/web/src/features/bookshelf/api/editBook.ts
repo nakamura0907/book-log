@@ -1,5 +1,4 @@
 import { axios } from "@utils/axios";
-import { AxiosResponse } from "axios";
 import { BookDetail } from "../types";
 
 export type EditBookDTO = {
@@ -11,10 +10,7 @@ export type EditBookDTO = {
   comment?: string;
 };
 
-export const editBook = async (
-  id: number,
-  data: EditBookDTO
-): Promise<AxiosResponse<BookDetail, any>> => {
+export const editBook = async (id: number, data: EditBookDTO) => {
   const formData = new FormData();
   if (data.title) {
     formData.append("title", data.title);
@@ -35,5 +31,5 @@ export const editBook = async (
     formData.append("comment", data.comment);
   }
 
-  return axios.put(`/books/${id}`, formData);
+  return axios.put<BookDetail>(`/books/${id}`, formData);
 };

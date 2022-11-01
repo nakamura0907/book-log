@@ -1,4 +1,5 @@
 import { axios } from "@utils/axios";
+import { BookDetail } from "../types";
 
 export type AddBookDTO = {
   title: string;
@@ -16,7 +17,7 @@ export const addBook = (data: AddBookDTO) => {
     formData.append("coverImage", data.coverImage);
   }
 
-  return axios.post("/books", formData, {
+  return axios.post<BookDetail>("/books", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

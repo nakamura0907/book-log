@@ -1,18 +1,19 @@
 import React from "react";
 import Image from "@components/ui/image";
 import List from "@components/ui/list";
-import Rate from "@components/ui/rate";
 import Skeleton from "@components/ui/skeleton";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import message from "@components/ui/message";
-import { fetchList, FetchListDTO } from "../api/fetchList";
-import { BookDetail } from "../types";
-import { isAxiosError } from "@utils/axios";
 import Form from "@components/ui/form";
 import Input from "@components/ui/input";
 import Button from "@components/ui/button";
 import Select from "@components/ui/select";
+import Rate from "../components/rate";
+import { fetchList, FetchListDTO } from "../api/fetchList";
+import { BookDetail } from "../types";
+import { isAxiosError } from "@utils/axios";
+import { BookStatusSelect } from "../components/form-field";
 
 type Options = Omit<FetchListDTO, "skip">;
 
@@ -42,30 +43,33 @@ export const BookshelfList = () => {
 
   const [form] = Form.useForm();
 
-  const loadMoreData = async (skip: number, options?: Options) => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-
-    try {
-      const response = await fetchList({
-        skip,
-        ...options,
-      });
-      setData((prev) => [...prev, ...response.data.books]);
-
-      if (response.data.isEnd) setHasMore(false);
-    } catch (error) {
-      if (isAxiosError(error) && error.response?.status != 500) {
-        message.error(error.response?.data.message);
-      } else {
-        message.error("本の取得に失敗しました");
+  const loadMoreData = React.useCallback(
+    async (skip: number, options?: Options) => {
+      if (isLoading || !hasMore) {
+        return;
       }
-    }
+      setIsLoading(true);
 
-    setIsLoading(false);
-  };
+      try {
+        const response = await fetchList({
+          skip,
+          ...options,
+        });
+        setData((prev) => [...prev, ...response.data.books]);
+
+        if (response.data.isEnd) setHasMore(false);
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status != 500) {
+          message.error(error.response?.data.message);
+        } else {
+          message.error("本の取得に失敗しました");
+        }
+      }
+
+      setIsLoading(false);
+    },
+    [isLoading, hasMore]
+  );
 
   const handleSubmit = (values: any) => {
     setData(initialState.data);
@@ -81,7 +85,7 @@ export const BookshelfList = () => {
 
   React.useEffect(() => {
     loadMoreData(initialState.data.length);
-  }, []);
+  }, [loadMoreData]);
 
   return (
     <div>
@@ -104,15 +108,7 @@ export const BookshelfList = () => {
             <Select.Option value="price">価格が安い順</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item name="status" initialValue={"all"}>
-          <Select>
-            <Select.Option value={"all"}>全て</Select.Option>
-            <Select.Option value={0}>未設定</Select.Option>
-            <Select.Option value={1}>読みたい</Select.Option>
-            <Select.Option value={2}>いま読んでる</Select.Option>
-            <Select.Option value={3}>読み終わった</Select.Option>
-          </Select>
-        </Form.Item>
+        <BookStatusSelect initialValue={"all"} withAll />
       </Form>
       <div
         id="scrollable"
@@ -141,6 +137,7 @@ export const BookshelfList = () => {
                             height={100}
                             width={80}
                             preview={false}
+                            alt={item.title}
                           />
                         ) : (
                           <Skeleton.Image style={{ width: 80, height: 100 }} />
